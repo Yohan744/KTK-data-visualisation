@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./asset/scss/style.css">
+    <link rel="icon" type="image/png" href="asset/img/favicon.png"/>
+    <title>KTK - Olympic Games</title>
+</head>
+<body>
+
+<section id="introduction">
+    
+    <div class="logo-wrapper">
+        <img src="asset/img/logo.png" alt="KTK logo">
+    </div>
+
+    <div class="us-wrapper">
+        <a href="#">
+            <h4>Qui sommes nous ?</h4>
+        </a>
+
+    </div>
+
+    <div class="wrapper">
+
+        <img src="asset/img/olympicRingWhite.png">
+
+        <div class="title-wrapper">
+            <h1>Développement et inégalités dans le monde</h1>
+            <h4>Jeux Olympique</h4>
+            <h5>Histoire - Géographie</h5>
+        </div>
+
+    </div>
+
+</section>
+
+<section id="definition">
+
+    <div class="title-wrapper">
+        <h2>Quelques définitions</h2>
+        <p>Introduction textuel rapide.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maecenas at libero eget ex dapibus varius vestibulum sed purus. Class aptent</p>
+    </div>
+
+    <div class="wrapper">
+        <div class="left-wrapper">
+            <img src="asset/img/pib.png" class="image" alt="image">
+            <h4>Produit intérieur brut</h4>
+            <p>Introduction textuel rapide.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maecenas at libero eget ex dapibus varius vestibulum sed purus. Class aptent</p>
+            <button>Voir plus</button>
+        </div>
+        <div class="middle-wrapper">
+            <img src="asset/img/star.png" class="image" alt="image">
+            <h4>Jeux Olympiques</h4>
+            <p>Introduction textuel rapide.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maecenas at libero eget ex dapibus varius vestibulum sed purus. Class aptent</p>
+            <button>Voir plus</button>
+        </div>
+        <div class="right-wrapper">
+            <img src="asset/img/carte.png" class="image" alt="image">
+            <h4>Cartographie</h4>
+            <p>Introduction textuel rapide.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maecenas at libero eget ex dapibus varius vestibulum sed purus. Class aptent</p>
+            <button>Voir plus</button>
+        </div>
+    </div>
+
+</section>
+
+<section id="map">
+
+    <div class="map-info-wrapper">
+
+        <h2>Carte du PIB par pays et par années de Jeux Olympiques</h2>
+
+        <p>Carte du monde interactive représentant le PIB par habitant en millions d’euros en fonction du temps, le nombre de médailles gagnées par chaque pays en fonction des JO, et la comparaison de ces deux données.</p>
+
+        <div class="info-wrapper">
+
+            <div class="year-country-wrapper">
+                <h4 class="year">1988</h4>
+                <h4 class="separator">|</h4>
+                <h4 class="country">Espagne</h4>
+            </div>
+
+            <p>Produit Intérieur Brut par habitants En millions de dollars</p>
+
+            <div class="indicator-wrapper">
+                <span class="first-span"></span>
+                <p>0-50</p>
+                <span class="second-span"></span>
+                <p>50-100</p>
+                <span class="third-span"></span>
+                <p>100-50</p>
+            </div>
+
+        </div>
+
+        <div class="pib-medals-wrapper">
+
+            <div class="pib-wrapper">
+                <img src="asset/img/pib_icon.png" alt="icon pib">
+                <h4>PIB</h4>
+            </div>
+
+            <div class="medals-wrapper">
+                <img src="asset/img/medals_icon.png" alt="icon pib">
+                <h4>MÉDAILLÉS</h4>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="input-wrapper">
+        <h4 class="realDate">1988</h4>
+        <label>
+            <input type="range" min="1960" max="2020" step="4" id="slider" value="1988">
+        </label>
+    </div>
+
+</section>
+
+<section id="quiz">
+
+</section>
+
+<section id="footer">
+    <div class="wrapper">
+        <div class="left-part">
+            <h3>Mentions légales</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam consequatur dolore ea eligendi in incidunt inventore iure laudantium neque, quas suscipit tenetur! Ab accusamus architecto est in sint vel veniam.</p>
+        </div>
+        <div class="middle-part">
+            <h3>Nos sources</h3>
+            <p>Introduction textuel rapide.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maecenas at</p>
+        </div>
+        <div class="right-part">
+            <h3>See more</h3>
+            <p>Introduction textuel rapide.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maecenas at</p>
+        </div>
+    </div>
+
+</section>
+
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.js'></script>
+<script src='https://api.mapbox.com/mapbox.js/plugins/turf/v2.0.2/turf.min.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.css' rel='stylesheet' />
+<script src="asset/js/mapbox.js" type="module"></script>
+</body>
+</html>
