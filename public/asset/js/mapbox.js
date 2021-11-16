@@ -18,6 +18,14 @@ const map = new mapboxgl.Map({
 
 let hoveredStateId = null;
 
+const body = document.querySelector("body");
+body.style.position = "fixed"
+
+window.addEventListener('load', (e) => {
+    body.style.position = "relative"
+    document.getElementById('loading').remove()
+});
+
 map.on('load', () => {
     map.addSource('countries', {
         type: 'geojson',
@@ -33,7 +41,7 @@ map.on('load', () => {
         'source': 'countries',
         'layout': {},
         'paint': {
-            'line-color': '#627bc1',
+            'line-color': '#F9FBFE',
             'line-width': 1
         }
     });
@@ -83,13 +91,14 @@ map.on('load', () => {
 
    // const source = map.getSource('countries')
 
-    ///////////////////////////////////// DATE //////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////// DATE /////////////////////////////////////////////////////////////
 
     const slider = document.querySelector('#slider')
     const dateFinal = document.querySelector('.info-wrapper .year-country-wrapper .year')
 
     slider.onmouseup = () => {
         dateFinal.innerHTML = slider.value
+        asyncCall().then()
     }
 
     const realDate = document.querySelector('#map .input-wrapper .realDate')
@@ -108,28 +117,9 @@ map.on('load', () => {
         realValue.style.left = newVal + "%"
     }
 
-    ///////////////////////////////////// COUNTRY //////////////////////////////////////////////////////////
-    const countryName = document.querySelector('.info-wrapper .year-country-wrapper .country')
-    let countryRealName
-
-    map.on('click', 'countriesHover', (e) => {
-        countryName.innerHTML = `<h4>${Object.values(e.features[0].properties)[0]}</h4>`
-        countryRealName = Object.values(e.features[0].properties)[1]
-        asyncCall().then()
-        console.log("country = " + countryRealName)
-
-        let bbox = turf.extent(e.features[0])
-
-        function center() {
-            map.fitBounds(bbox, {padding: {top: 10, bottom:25, left: 15, right: 5}, maxZoom: 3.5, linear: true, duration: 1000})
-        }
-
-        center()
-
-    });
+    ///////////////////////////////////////////////// VPS //////////////////////////////////////////////////////////////
 
     async function asyncCall() {
-        console.clear()
         console.log("year = " + slider.value)
         let data = await axios.get(process.env.VPS + '/test?year=' + slider.value)
         let countryArray = []
@@ -144,7 +134,30 @@ map.on('load', () => {
         if (!countryArray.includes(countryRealName)) {
             console.log(0)
         }
+
+        console.log(data.data)
+        console.log("=================================================")
     }
+
+    asyncCall().then()
+
+    ///////////////////////////////////////////////// COUNTRY //////////////////////////////////////////////////////////
+
+    const countryName = document.querySelector('.info-wrapper .year-country-wrapper .country')
+    let countryRealName
+
+    map.on('click', 'countriesHover', (e) => {
+        countryName.innerHTML = `<h4>${Object.values(e.features[0].properties)[0]}</h4>`
+        countryRealName = Object.values(e.features[0].properties)[1]
+        asyncCall().then()
+        console.log("country = " + countryRealName)
+
+        let bbox = turf.extent(e.features[0])
+        function center() {
+            map.fitBounds(bbox, {padding: {top: 10, bottom:25, left: 15, right: 5}, maxZoom: 3.5, linear: true, duration: 1000})
+        } center()
+
+    });
 
 
     // Mouse position
