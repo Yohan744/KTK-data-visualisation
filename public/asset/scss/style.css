@@ -32,7 +32,6 @@ body::-webkit-scrollbar {
   position: relative;
   width: 100vw;
   padding: 339px 0 380px;
-  background: #FFFFFF;
 }
 #introduction .logo-wrapper {
   position: absolute;
@@ -274,13 +273,13 @@ body::-webkit-scrollbar {
   width: 615px;
   font-family: Poppins, serif;
   font-weight: 500;
-  font-size: 40px;
+  font-size: 53px;
   line-height: 56px;
   color: #04081F;
 }
 #map .wrapper .map-info-wrapper .info-wrapper {
   position: relative;
-  margin-top: 48px;
+  margin-top: 76px;
   width: fit-content;
   padding-left: 24px;
   display: flex;
@@ -501,30 +500,94 @@ body::-webkit-scrollbar {
 
 #stats {
   position: relative;
-  padding-top: 89px;
-  background: #942dae;
+  padding: 92px 155px 170px;
+  background: #FFFFFF;
 }
 #stats h2 {
   position: relative;
-  width: 755px;
-  left: 50%;
-  transform: translate(-50%);
+  margin-bottom: 102px;
+  width: fit-content;
   font-family: Poppins, serif;
   text-align: center;
   font-size: 60px;
   line-height: 90px;
   font-weight: 500;
+  color: #7C9FFF;
+}
+#stats .wrapper {
+  position: relative;
+  height: 460px;
+  display: flex;
+  flex-direction: row;
+}
+#stats .wrapper .graph {
+  position: relative;
+  height: 100%;
+  width: 790px;
+  border-radius: 25px;
+  background: #F9FBFE;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+#stats .wrapper .text-wrapper {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#stats .wrapper .text-wrapper p {
+  position: relative;
+  margin: 0 92.5px;
+  width: 635px;
+  font-family: Poppins, serif;
+  font-size: 24px;
+  font-weight: 500;
+  color: #33343B;
+}
+#stats .wrapper .text-wrapper .info {
+  position: relative;
+  margin-top: 82px;
+  height: 20px;
+  width: 200px;
+  background: mediumpurple;
+}
+#stats .first-wrapper, #stats .second-wrapper {
+  margin-bottom: 102px;
+}
+
+#knowledge {
+  position: relative;
+  padding-top: 78px;
+  padding-bottom: 110px;
+  background: #F9FBFE;
+}
+#knowledge h2 {
+  position: relative;
+  font-family: Poppins, serif;
+  font-size: 60px;
+  font-weight: 500;
+  text-align: center;
   color: #2F2F2F;
 }
-#stats p {
+#knowledge p {
   position: relative;
+  margin: 27px auto 0;
   width: 820px;
-  margin: 27px auto 122px;
-  text-align: center;
   font-family: Poppins, serif;
   font-size: 19px;
   font-weight: 400;
-  color: #050D3932;
+  text-align: center;
+  color: #33343B;
+}
+#knowledge .wrapper {
+  position: relative;
+  margin: 90px auto 0;
+  height: 592px;
+  width: 780px;
+  border-radius: 25px;
+  background: #FFFFFF;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 }
 
 #skills {

@@ -1,17 +1,22 @@
 {
-  "name": "test",
+  "name": "ktk-data-visualisation",
   "version": "1.0.0",
   "description": "",
   "source": "./public/index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "parcel ./public/index.html",
-    "build": "parcel build"
+    "build": "rm -rf ./dist && parcel build",
+    "prestart": "npm run build",
+    "start": "node .",
+    "dev": "parcel ./public/index.html"
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
     "axios": "^0.24.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
     "cz-conventional-changelog": "^3.3.0",
     "parcel": "^2.0.0"
   },
