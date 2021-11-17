@@ -32,7 +32,6 @@ body::-webkit-scrollbar {
   position: relative;
   width: 100vw;
   padding: 339px 0 380px;
-  background: #FFFFFF;
 }
 #introduction .logo-wrapper {
   position: absolute;
@@ -274,13 +273,13 @@ body::-webkit-scrollbar {
   width: 615px;
   font-family: Poppins, serif;
   font-weight: 500;
-  font-size: 40px;
+  font-size: 53px;
   line-height: 56px;
   color: #04081F;
 }
 #map .wrapper .map-info-wrapper .info-wrapper {
   position: relative;
-  margin-top: 48px;
+  margin-top: 76px;
   width: fit-content;
   padding-left: 24px;
   display: flex;
