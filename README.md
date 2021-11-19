@@ -24,7 +24,7 @@ VPS = http://localhost:3000
 
 Now build and run docker
 
-```s
+```bash
 docker-compose build
 docker-compose up -d
 ```
