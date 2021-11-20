@@ -29,7 +29,7 @@ window.addEventListener('load', (e) => {
 map.on('load', () => {
     map.addSource('countries', {
         type: 'geojson',
-// Use a URL for the value for the `data` property.
+        // Use a URL for the value for the `data` property.
         data: countries,
         generateId: true
     });
@@ -67,14 +67,14 @@ map.on('load', () => {
         if (e.features.length > 0) {
             if (hoveredStateId !== null) {
                 map.setFeatureState(
-                    {source: 'countries', id: hoveredStateId},
-                    {hover: false}
+                    { source: 'countries', id: hoveredStateId },
+                    { hover: false }
                 );
             }
             hoveredStateId = e.features[0].id;
             map.setFeatureState(
-                {source: 'countries', id: hoveredStateId},
-                {hover: true}
+                { source: 'countries', id: hoveredStateId },
+                { hover: true }
             );
         }
     });
@@ -82,14 +82,14 @@ map.on('load', () => {
     map.on('mouseleave', 'countriesHover', () => {
         if (hoveredStateId !== null) {
             map.setFeatureState(
-                {source: 'countries', id: hoveredStateId},
-                {hover: false}
+                { source: 'countries', id: hoveredStateId },
+                { hover: false }
             );
         }
         hoveredStateId = null;
     });
 
-   // const source = map.getSource('countries')
+    // const source = map.getSource('countries')
 
     ///////////////////////////////////////////////// DATE /////////////////////////////////////////////////////////////
 
@@ -154,7 +154,7 @@ map.on('load', () => {
 
         let bbox = turf.extent(e.features[0])
         function center() {
-            map.fitBounds(bbox, {padding: {top: 10, bottom:25, left: 15, right: 5}, maxZoom: 3.5, linear: true, duration: 1000})
+            map.fitBounds(bbox, { padding: { top: 10, bottom: 25, left: 15, right: 5 }, maxZoom: 3.5, linear: true, duration: 1000 })
         } center()
 
     });
