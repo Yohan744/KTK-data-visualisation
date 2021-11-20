@@ -32,6 +32,8 @@ body::-webkit-scrollbar {
   position: relative;
   width: 100vw;
   padding: 339px 0 380px;
+  background: url("../img/introduction_background.png");
+  background-size: cover;
 }
 #introduction .logo-wrapper {
   position: absolute;

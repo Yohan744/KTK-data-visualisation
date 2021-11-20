@@ -5,8 +5,6 @@ mapboxgl.accessToken = process.env.TOKEN;
 
 const maxCoordinates = [[-169.7827071443, -58.7187007344], [-170.8033889302, 77.5153340433], [178.6670204285, 77.895585424], [179.6877022144, -57.778978041], [-169.7827071443, -58.7187007344]];
 
-let countryClick
-
 const map = new mapboxgl.Map({
     container: 'map', // container ID
     style: process.env.MAP, // style URL
@@ -34,6 +32,9 @@ map.on('load', () => {
         generateId: true
     });
 
+    // Get the source
+    const src = map.getSource('countries')._data.features
+
     // Border
     map.addLayer({
         'id': 'countries',
@@ -46,7 +47,8 @@ map.on('load', () => {
         }
     });
 
-    // Countries Hover
+    ///////////////////////////////////////////// COUNTRIES HOVER //////////////////////////////////////////////////////
+
     map.addLayer({
         'id': 'countriesHover',
         'type': 'fill',
@@ -89,8 +91,6 @@ map.on('load', () => {
         hoveredStateId = null;
     });
 
-   // const source = map.getSource('countries')
-
     ///////////////////////////////////////////////// DATE /////////////////////////////////////////////////////////////
 
     const slider = document.querySelector('#slider')
@@ -98,13 +98,13 @@ map.on('load', () => {
 
     slider.onmouseup = () => {
         dateFinal.innerHTML = slider.value
-        asyncCall().then()
     }
 
     const realDate = document.querySelector('#map .input-wrapper .realDate')
 
     slider.addEventListener("input", () => {
         realDate.innerHTML = slider.value
+        colorCountries().then()
         setDate(slider, realDate)
     })
 
@@ -117,29 +117,70 @@ map.on('load', () => {
         realValue.style.left = newVal + "%"
     }
 
-    ///////////////////////////////////////////////// VPS //////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////// COUNTRIES COLOR //////////////////////////////////////////////////////
 
-    async function asyncCall() {
-        console.log("year = " + slider.value)
-        let data = await axios.get(process.env.VPS + '/test?year=' + slider.value)
-        let countryArray = []
-        for (let i = 0; i < data.data.length; i++) {
-            countryArray.push(data.data[i].country)
-            if (countryRealName === data.data[i].country) {
-                console.log("medals = " + data.data[i].medals)
-                break
+    map.addLayer({
+        'id': 'countriesColor',
+        'type': 'fill',
+        'source': 'countries',
+        'paint': {
+            'fill-color': [
+                "case",
+                ["==", ["feature-state", "colorCountries"], 1], "#5ee2ff",
+                ["==", ["feature-state", "colorCountries"], 2], "#00b0ff",
+                "#afe8ff",
+            ],
+            'fill-opacity': 0.75
+        }
+    });
+
+    async function colorCountries() {
+        // Get the data
+        let data = await axios.get(process.env.VPS + '/medals?year=' + slider.value)
+        let finalData = data.data.sort(function (a, b) {
+            if (a.country < b.country) {
+                return -1;
             }
+            if (a.country > b.country) {
+                return 1;
+            }
+            return 0;
+        })
+
+        let countriesTotalMedals
+        let color = 0
+
+        for (let i = 0; i < finalData.length; i++) {
+
+            let indexOfFeatures = src.map(function (e) {
+                return e.properties.ISO_A3;
+            }).indexOf(finalData[i].country);
+
+            countriesTotalMedals = finalData[i].total
+            console.log(finalData[i].country + " has " + countriesTotalMedals)
+
+            if (countriesTotalMedals >= 20 && countriesTotalMedals < 70) {
+                color = 1
+
+            } else if (countriesTotalMedals >= 70) {
+                color = 2
+            }
+
+            map.setFeatureState(
+                {
+                    source: 'countries',
+                    id: indexOfFeatures
+                },
+                {colorCountries: color},
+            );
+
+            color = 0
+
         }
 
-        if (!countryArray.includes(countryRealName)) {
-            console.log(0)
-        }
-
-        console.log(data.data)
-        console.log("=================================================")
     }
 
-    asyncCall().then()
+    colorCountries().then()
 
     ///////////////////////////////////////////////// COUNTRY //////////////////////////////////////////////////////////
 
@@ -149,13 +190,23 @@ map.on('load', () => {
     map.on('click', 'countriesHover', (e) => {
         countryName.innerHTML = `<h4>${Object.values(e.features[0].properties)[0]}</h4>`
         countryRealName = Object.values(e.features[0].properties)[1]
+        console.log(e.features[0])
+
         asyncCall().then()
         console.log("country = " + countryRealName)
 
         let bbox = turf.extent(e.features[0])
+
         function center() {
-            map.fitBounds(bbox, {padding: {top: 10, bottom:25, left: 15, right: 5}, maxZoom: 3.5, linear: true, duration: 1000})
-        } center()
+            map.fitBounds(bbox, {
+                padding: {top: 10, bottom: 25, left: 15, right: 5},
+                maxZoom: 3.5,
+                linear: true,
+                duration: 1000
+            })
+        }
+
+        center()
 
     });
 
