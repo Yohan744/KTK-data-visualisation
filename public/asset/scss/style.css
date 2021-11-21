@@ -291,6 +291,14 @@ body::-webkit-scrollbar {
   font-weight: 500;
   color: #24242C;
 }
+#map .map-info-wrapper .info-wrapper p {
+  position: relative;
+  margin-top: 12px;
+  font-family: Poppins, serif;
+  font-weight: 400;
+  font-size: 19px;
+  color: #050D3955;
+}
 #map .map-info-wrapper .info-wrapper .medals-global-wrapper {
   position: relative;
   margin-top: 32px;
@@ -357,20 +365,46 @@ body::-webkit-scrollbar {
   top: -2.75px;
   height: 100%;
   background: transparent;
-  border: 3px solid #9EC3FF;
+  border: 3px solid transparent;
   border-radius: 15px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
   cursor: pointer;
+  filter: grayscale(100%);
+  transition: 0.35s ease-in-out;
+}
+#map .map-info-wrapper .info-wrapper .pib-global-wrapper .first-wrapper:hover, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .second-wrapper:hover, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .third-wrapper:hover {
+  filter: none;
+}
+#map .map-info-wrapper .info-wrapper .pib-global-wrapper .first-wrapper:hover h5, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .second-wrapper:hover h5, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .third-wrapper:hover h5 {
+  transition: 0.35s ease-in-out;
+  color: #04081F;
+}
+#map .map-info-wrapper .info-wrapper .pib-global-wrapper .first-wrapper.active, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .second-wrapper.active, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .third-wrapper.active {
+  transition: 0.35s ease-in-out;
+  filter: none;
+  border: 3px solid #9EC3FF;
+}
+#map .map-info-wrapper .info-wrapper .pib-global-wrapper .first-wrapper.active h5, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .second-wrapper.active h5, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .third-wrapper.active h5 {
+  transition: 0.35s ease-in-out;
+  color: #04081F;
+}
+#map .map-info-wrapper .info-wrapper .pib-global-wrapper .first-wrapper.active:hover, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .second-wrapper.active:hover, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .third-wrapper.active:hover {
+  filter: grayscale(100%);
+}
+#map .map-info-wrapper .info-wrapper .pib-global-wrapper .first-wrapper.active:hover h5, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .second-wrapper.active:hover h5, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .third-wrapper.active:hover h5 {
+  transition: 0.35s ease-in-out;
+  color: #04081F44;
 }
 #map .map-info-wrapper .info-wrapper .pib-global-wrapper .first-wrapper h5, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .second-wrapper h5, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .third-wrapper h5 {
   position: relative;
   font-family: Poppins, serif;
   font-weight: 500;
   font-size: 18px;
-  color: #04081F;
+  color: #04081F44;
+  transition: 0.35s ease-in-out;
 }
 #map .map-info-wrapper .info-wrapper .pib-global-wrapper .first-wrapper span, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .second-wrapper span, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .third-wrapper span {
   position: relative;
@@ -382,21 +416,13 @@ body::-webkit-scrollbar {
 }
 #map .map-info-wrapper .info-wrapper .pib-global-wrapper .first-wrapper .first-span, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .second-wrapper .first-span, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .third-wrapper .first-span {
   position: relative;
-  background: #A8D0FF85;
+  background: #A8D0FF;
 }
 #map .map-info-wrapper .info-wrapper .pib-global-wrapper .first-wrapper .second-span, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .second-wrapper .second-span, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .third-wrapper .second-span {
-  background: #93BDFF90;
+  background: #93BDFF;
 }
 #map .map-info-wrapper .info-wrapper .pib-global-wrapper .first-wrapper .third-span, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .second-wrapper .third-span, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .third-wrapper .third-span {
   background: #7C9FFF;
-}
-#map .map-info-wrapper .info-wrapper p {
-  position: relative;
-  margin-top: 12px;
-  font-family: Poppins, serif;
-  font-weight: 400;
-  font-size: 19px;
-  color: #050D3955;
 }
 #map .map-info-wrapper .pib-medals-wrapper {
   position: relative;
