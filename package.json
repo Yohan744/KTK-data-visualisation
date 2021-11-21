@@ -5,6 +5,7 @@
   "source": "./public/index.html",
   "scripts": {
     "build": "rm -rf ./dist && parcel build",
+    "prestart": "npm run build",
     "start": "node --max-old-space-size=1536 .",
     "dev": "parcel ./public/index.html"
   },
