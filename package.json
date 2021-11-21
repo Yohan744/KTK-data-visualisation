@@ -5,6 +5,7 @@
   "source": "./public/index.html",
   "scripts": {
     "build": "rm -rf ./dist && parcel build",
+    "prestart": "npm run build",
     "start": "node .",
     "dev": "parcel ./public/index.html"
   },
