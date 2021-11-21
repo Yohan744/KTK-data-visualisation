@@ -11,7 +11,7 @@ const map = new mapboxgl.Map({
     center: [3.5, 45], // starting position [lng, lat]
     zoom: 4, // starting zoom
     pitch: 0,
-    maxBounds: maxCoordinates, // max coordinates
+    //maxBounds: maxCoordinates, // max coordinates
 });
 
 let hoveredStateId = null;
@@ -27,7 +27,6 @@ window.addEventListener('load', (e) => {
 map.on('load', () => {
     map.addSource('countries', {
         type: 'geojson',
-// Use a URL for the value for the `data` property.
         data: countries,
         generateId: true
     });
@@ -94,17 +93,12 @@ map.on('load', () => {
     ///////////////////////////////////////////////// DATE /////////////////////////////////////////////////////////////
 
     const slider = document.querySelector('#slider')
-    const dateFinal = document.querySelector('.info-wrapper .year-country-wrapper .year')
-
-    slider.onmouseup = () => {
-        dateFinal.innerHTML = slider.value
-    }
 
     const realDate = document.querySelector('#map .input-wrapper .realDate')
 
     slider.addEventListener("input", () => {
         realDate.innerHTML = slider.value
-        colorCountries().then()
+        pibCountries().then()
         setDate(slider, realDate)
     })
 
@@ -117,24 +111,24 @@ map.on('load', () => {
         realValue.style.left = newVal + "%"
     }
 
-    ///////////////////////////////////////////// COUNTRIES COLOR //////////////////////////////////////////////////////
+    ///////////////////////////////////////////// COUNTRIES PIB //////////////////////////////////////////////////////
 
     map.addLayer({
-        'id': 'countriesColor',
+        'id': 'countriesPib',
         'type': 'fill',
         'source': 'countries',
         'paint': {
             'fill-color': [
                 "case",
-                ["==", ["feature-state", "colorCountries"], 1], "#5ee2ff",
-                ["==", ["feature-state", "colorCountries"], 2], "#00b0ff",
-                "#afe8ff",
+                ["==", ["feature-state", "colorCountries"], 1], "#93BDFF",
+                ["==", ["feature-state", "colorCountries"], 2], "#7C9FFF",
+                "#A8D0FF",
             ],
             'fill-opacity': 0.75
         }
     });
 
-    async function colorCountries() {
+    async function pibCountries() {
         // Get the data
         let data = await axios.get(process.env.VPS + '/medals?year=' + slider.value)
         let finalData = data.data.sort(function (a, b) {
@@ -180,7 +174,7 @@ map.on('load', () => {
 
     }
 
-    colorCountries().then()
+    pibCountries().then()
 
     ///////////////////////////////////////////////// COUNTRY //////////////////////////////////////////////////////////
 
