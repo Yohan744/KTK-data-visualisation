@@ -1,15 +1,15 @@
 import countries from '../json/countries.json'
 import axios from "axios"
 
-mapboxgl.accessToken = process.env.TOKEN;
+mapboxgl.accessToken = 'pk.eyJ1IjoieW9oYW43NCIsImEiOiJja3V4enhja2gyazIyMm5xdmUxcHhlemxzIn0.v0psfyXr-XCdIRTIvzI8lA'
 
 const maxCoordinates = [[-169.7827071443, -58.7187007344], [-170.8033889302, 77.5153340433], [178.6670204285, 77.895585424], [179.6877022144, -57.778978041], [-169.7827071443, -58.7187007344]];
 
 const map = new mapboxgl.Map({
     container: 'map', // container ID
-    style: process.env.MAP, // style URL
+    style: "mapbox://styles/yohan74/ckuzm116w0ydn16phfu83c4f7", // style URL
     center: [3.5, 45], // starting position [lng, lat]
-    zoom: 4, // starting zoom
+    zoom: 3, // starting zoom
     pitch: 0,
     //maxBounds: maxCoordinates, // max coordinates
 });
@@ -111,6 +111,35 @@ map.on('load', () => {
         realValue.style.left = newVal + "%"
     }
 
+    ///////////////////////////////////////////// INTERACTION MAP //////////////////////////////////////////////////////
+
+    const firstWrapperGpd = document.querySelector('#map .map-info-wrapper .info-wrapper .pib-global-wrapper .first-wrapper')
+    const secondWrapperGpd = document.querySelector('#map .map-info-wrapper .info-wrapper .pib-global-wrapper .second-wrapper')
+    const thirdWrapperGpd = document.querySelector('#map .map-info-wrapper .info-wrapper .pib-global-wrapper .third-wrapper')
+
+    let firstWrapperGpdVerification = false
+    let secondWrapperGpdVerification = false
+    let thirdWrapperGpdVerification = false
+
+    firstWrapperGpd.onclick = () => {
+        pibCountries().then()
+        firstWrapperGpd.classList.toggle('active')
+        firstWrapperGpdVerification = firstWrapperGpd.classList.contains('active');
+    }
+
+    secondWrapperGpd.onclick = () => {
+        pibCountries().then()
+        secondWrapperGpd.classList.toggle('active')
+        secondWrapperGpdVerification = secondWrapperGpd.classList.contains('active');
+    }
+
+    thirdWrapperGpd.onclick = () => {
+        pibCountries().then()
+        thirdWrapperGpd.classList.toggle('active')
+        thirdWrapperGpdVerification = thirdWrapperGpd.classList.contains('active');
+    }
+
+
     ///////////////////////////////////////////// COUNTRIES PIB //////////////////////////////////////////////////////
 
     map.addLayer({
@@ -120,9 +149,11 @@ map.on('load', () => {
         'paint': {
             'fill-color': [
                 "case",
-                ["==", ["feature-state", "colorCountries"], 1], "#93BDFF",
-                ["==", ["feature-state", "colorCountries"], 2], "#7C9FFF",
-                "#A8D0FF",
+                ["==", ["feature-state", "colorCountries"], null], "#F9FBFE",
+                ["==", ["feature-state", "colorCountries"], 1], "#A8D0FF",
+                ["==", ["feature-state", "colorCountries"], 2], "#93BDFF",
+                ["==", ["feature-state", "colorCountries"], 3], "#7C9FFF",
+                "#F9FBFE"
             ],
             'fill-opacity': 0.75
         }
@@ -130,7 +161,7 @@ map.on('load', () => {
 
     async function pibCountries() {
         // Get the data
-        let data = await axios.get(process.env.VPS + '/medals?year=' + slider.value)
+        let data = await axios.get(process.env.VPS + '/gpds?year=' + slider.value)
         let finalData = data.data.sort(function (a, b) {
             if (a.country < b.country) {
                 return -1;
@@ -141,7 +172,7 @@ map.on('load', () => {
             return 0;
         })
 
-        let countriesTotalMedals
+        let countriesGpd
         let color = 0
 
         for (let i = 0; i < finalData.length; i++) {
@@ -150,15 +181,32 @@ map.on('load', () => {
                 return e.properties.ISO_A3;
             }).indexOf(finalData[i].country);
 
-            countriesTotalMedals = finalData[i].total
-            console.log(finalData[i].country + " has " + countriesTotalMedals)
+            countriesGpd = finalData[i].gpd
 
-            if (countriesTotalMedals >= 20 && countriesTotalMedals < 70) {
-                color = 1
+            if (countriesGpd >= 0 && countriesGpd < 5000000000) {
 
-            } else if (countriesTotalMedals >= 70) {
-                color = 2
+                if (firstWrapperGpdVerification) {
+
+                    color = 1
+                }
+
+            } else if (countriesGpd >= 5000000000 && countriesGpd < 20000000000) {
+
+                if (secondWrapperGpdVerification) {
+
+                    color = 2
+                }
+
+            } else {
+
+                if (thirdWrapperGpdVerification) {
+
+                    color = 3
+                }
+
             }
+
+
 
             map.setFeatureState(
                 {
@@ -168,7 +216,7 @@ map.on('load', () => {
                 {colorCountries: color},
             );
 
-            color = 0
+            color = null
 
         }
 
@@ -178,15 +226,12 @@ map.on('load', () => {
 
     ///////////////////////////////////////////////// COUNTRY //////////////////////////////////////////////////////////
 
-    const countryName = document.querySelector('.info-wrapper .year-country-wrapper .country')
     let countryRealName
 
     map.on('click', 'countriesHover', (e) => {
-        countryName.innerHTML = `<h4>${Object.values(e.features[0].properties)[0]}</h4>`
         countryRealName = Object.values(e.features[0].properties)[1]
         console.log(e.features[0])
 
-        asyncCall().then()
         console.log("country = " + countryRealName)
 
         let bbox = turf.extent(e.features[0])
