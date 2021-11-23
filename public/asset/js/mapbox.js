@@ -1,13 +1,13 @@
 import countries from '../json/countries.json'
 import axios from "axios"
 
-mapboxgl.accessToken = 'pk.eyJ1IjoieW9oYW43NCIsImEiOiJja3V4enhja2gyazIyMm5xdmUxcHhlemxzIn0.v0psfyXr-XCdIRTIvzI8lA'
+mapboxgl.accessToken = 'pk.eyJ1Ijoibm9vb29vb29vb29vb29vb2UiLCJhIjoiY2t2aTN0OXFtMGZvYzJvbjBlYmNhcnJlbiJ9.7d0EuZjxcvKMFEuyVoEAnw'
 
 const maxCoordinates = [[-169.7827071443, -58.7187007344], [-170.8033889302, 77.5153340433], [178.6670204285, 77.895585424], [179.6877022144, -57.778978041], [-169.7827071443, -58.7187007344]];
 
 const map = new mapboxgl.Map({
     container: 'map', // container ID
-    style: "mapbox://styles/yohan74/ckuzm116w0ydn16phfu83c4f7", // style URL
+    style: "mapbox://styles/noooooooooooooooe/ckvi4aw5d1jsb14oak88v6scz", // style URL
     center: [3.5, 45], // starting position [lng, lat]
     zoom: 3, // starting zoom
     pitch: 0,
@@ -90,27 +90,6 @@ map.on('load', () => {
         hoveredStateId = null;
     });
 
-    ///////////////////////////////////////////////// DATE /////////////////////////////////////////////////////////////
-
-    const slider = document.querySelector('#slider')
-
-    const realDate = document.querySelector('#map .input-wrapper .realDate')
-
-    slider.addEventListener("input", () => {
-        realDate.innerHTML = slider.value
-        pibCountries().then()
-        setDate(slider, realDate)
-    })
-
-    function setDate(slider, realValue) {
-        const val = slider.value
-        const min = slider.min
-        const max = slider.max
-        let newVal = Number(((val - min) * 100) / (max - min));
-        realValue.innerHTML = val
-        realValue.style.left = newVal + "%"
-    }
-
     ///////////////////////////////////////////// INTERACTION MAP //////////////////////////////////////////////////////
 
     const firstWrapperGpd = document.querySelector('#map .map-info-wrapper .info-wrapper .pib-global-wrapper .first-wrapper')
@@ -139,6 +118,32 @@ map.on('load', () => {
         thirdWrapperGpdVerification = thirdWrapperGpd.classList.contains('active');
     }
 
+    ///////////////////////////////////////////////// DATE /////////////////////////////////////////////////////////////
+
+    const slider = document.querySelector('#slider')
+
+    const realDate = document.querySelector('#map .input-wrapper .realDate')
+
+    slider.addEventListener("input", () => {
+        realDate.innerHTML = slider.value
+        setDate(slider, realDate)
+
+        if (firstWrapperGpdVerification || secondWrapperGpdVerification || thirdWrapperGpdVerification) {
+            pibCountries().then()
+        }
+
+        medalsCountries().then()
+
+    })
+
+    function setDate(slider, realValue) {
+        const val = slider.value
+        const min = slider.min
+        const max = slider.max
+        let newVal = Number(((val - min) * 100) / (max - min));
+        realValue.innerHTML = val
+        realValue.style.left = newVal + "%"
+    }
 
     ///////////////////////////////////////////// COUNTRIES PIB //////////////////////////////////////////////////////
 
@@ -149,7 +154,7 @@ map.on('load', () => {
         'paint': {
             'fill-color': [
                 "case",
-                ["==", ["feature-state", "colorCountries"], null], "#F9FBFE",
+                ["==", ["feature-state", "colorCountries"], 0], "#F9FBFE",
                 ["==", ["feature-state", "colorCountries"], 1], "#A8D0FF",
                 ["==", ["feature-state", "colorCountries"], 2], "#93BDFF",
                 ["==", ["feature-state", "colorCountries"], 3], "#7C9FFF",
@@ -206,8 +211,6 @@ map.on('load', () => {
 
             }
 
-
-
             map.setFeatureState(
                 {
                     source: 'countries',
@@ -222,7 +225,84 @@ map.on('load', () => {
 
     }
 
-    pibCountries().then()
+    if (firstWrapperGpdVerification || secondWrapperGpdVerification || thirdWrapperGpdVerification) {
+        pibCountries().then()
+    }
+
+    ///////////////////////////////////////////// COUNTRIES MEDALS /////////////////////////////////////////////////////
+
+    map.addLayer({
+        'id': 'countriesMedals',
+        'type': 'fill',
+        'source': 'countries',
+        'paint': {
+            'fill-color': [
+                "case",
+                ["==", ["feature-state", "circleRadius"], 0], "#F9FBFE",
+                ["==", ["feature-state", "circleRadius"], 1], "#ffafa8",
+                ["==", ["feature-state", "circleRadius"], 2], "#ff5753",
+                ["==", ["feature-state", "circleRadius"], 3], "#ff0a00",
+                "#F9FBFE"
+            ],
+            'fill-opacity': 0.75
+        }
+    });
+
+    async function medalsCountries() {
+        // Get the data
+        let data = await axios.get(process.env.VPS + '/medals?year=' + slider.value)
+        let finalData = data.data.sort(function (a, b) {
+            if (a.country < b.country) {
+                return -1;
+            }
+            if (a.country > b.country) {
+                return 1;
+            }
+            return 0;
+        })
+
+        let countriesMedals
+        let circleRadius = 0
+
+        for (let i = 0; i < finalData.length; i++) {
+
+            let indexOfFeatures = src.map(function (e) {
+                return e.properties.ISO_A3;
+            }).indexOf(finalData[i].country);
+
+            countriesMedals = finalData[i].total
+
+            if (countriesMedals >= 0 && countriesMedals < 50) {
+
+                circleRadius = 1
+
+            } else if (countriesMedals >= 50 && countriesMedals < 100) {
+
+                circleRadius = 2
+
+            } else {
+
+                circleRadius = 3
+
+            }
+
+            console.log(finalData[i].country + " has " + countriesMedals + " medals, so the circle-radius is " + circleRadius)
+
+            map.setFeatureState(
+                {
+                    source: 'countries',
+                    id: indexOfFeatures
+                },
+                {circleRadius: circleRadius},
+            );
+
+            circleRadius = 0
+
+        }
+
+    }
+
+    medalsCountries().then()
 
     ///////////////////////////////////////////////// COUNTRY //////////////////////////////////////////////////////////
 
@@ -238,8 +318,8 @@ map.on('load', () => {
 
         function center() {
             map.fitBounds(bbox, {
-                padding: {top: 10, bottom: 25, left: 15, right: 5},
-                maxZoom: 3.5,
+                padding: {top: 100, bottom: 100, left: 700, right: 0},
+                maxZoom: 3,
                 linear: true,
                 duration: 1000
             })

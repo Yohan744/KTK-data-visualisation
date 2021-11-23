@@ -455,15 +455,6 @@ body {
               color: #04081F;
             }
 
-            &:hover {
-              filter: grayscale(100%);
-
-              h5 {
-                transition: 0.35s ease-in-out;
-                color: #04081F44;
-              }
-            }
-
           }
 
           h5 {

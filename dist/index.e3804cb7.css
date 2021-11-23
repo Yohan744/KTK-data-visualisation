@@ -440,15 +440,6 @@ body::-webkit-scrollbar {
   color: #04081F;
 }
 
-#map .map-info-wrapper .info-wrapper .pib-global-wrapper .first-wrapper.active:hover, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .second-wrapper.active:hover, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .third-wrapper.active:hover {
-  filter: grayscale(100%);
-}
-
-#map .map-info-wrapper .info-wrapper .pib-global-wrapper .first-wrapper.active:hover h5, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .second-wrapper.active:hover h5, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .third-wrapper.active:hover h5 {
-  transition: 0.35s ease-in-out;
-  color: #04081F44;
-}
-
 #map .map-info-wrapper .info-wrapper .pib-global-wrapper .first-wrapper h5, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .second-wrapper h5, #map .map-info-wrapper .info-wrapper .pib-global-wrapper .third-wrapper h5 {
   position: relative;
   font-family: Poppins, serif;
